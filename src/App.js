@@ -48,9 +48,10 @@ For conversational questions, respond normally without the document markers.
 ---
 
 YWCA CAMBRIDGE — LATE RENT NOTICE TEMPLATE
-Use this exact format when generating a YWCA late rent notice:
+Use this exact format when generating a YWCA late rent notice.
+IMPORTANT: Output the date on its own line prefixed with "DATE_RIGHT:" so the PDF renderer right-aligns it. Do not include "YWCA Cambridge" or the building address as a header — the letterhead already shows that.
 
-                                                    [Weekday, Month D, YYYY — right-aligned]
+DATE_RIGHT:[Weekday, Month D, YYYY]
 
 [Resident Full Name]
 7 Temple Street #[Unit]
@@ -70,8 +71,6 @@ Dear [First Name],
 
      We are here to help and can discuss possible repayment arrangements. If you have made a payment while this letter was being drafted, please disregard.
 
-Thank you for your immediate attention to this matter.
-
 Sincerely,
 
 
@@ -86,9 +85,9 @@ CC: Resident File
 
 YWCA CAMBRIDGE — LEASE VIOLATION NOTICE TEMPLATE
 Use this exact format when generating a lease violation notice. Select the correct WARNING LEVEL: Verbal | 1st Written | 2nd Written | Final Written (default to 1st Written if not specified).
-IMPORTANT: Do NOT include "YWCA Cambridge" or "7 Temple Street | Cambridge, MA 02139" at the top — the letterhead already shows that. Start directly with the date.
+IMPORTANT: Do NOT include "YWCA Cambridge" or "7 Temple Street | Cambridge, MA 02139" at the top — the letterhead already shows that. Output the date prefixed with "DATE_RIGHT:" so it is right-aligned.
 
-[Date — format: Month D, YYYY]
+DATE_RIGHT:[Month D, YYYY]
 
 [Resident Full Name]
 Unit [Unit Number]
@@ -429,6 +428,17 @@ function Message({ msg }) {
       for (const rawLine of lines) {
         const trimmed = rawLine.trimEnd();
         if (trimmed === "") { y += lineH * 0.5; continue; }
+
+        // Right-aligned date — AI prefixes with DATE_RIGHT:
+        if (trimmed.startsWith("DATE_RIGHT:")) {
+          const dateText = trimmed.slice("DATE_RIGHT:".length).trim();
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(11);
+          doc.setTextColor(...BLACK);
+          doc.text(dateText, pageW - margin, y, { align: "right" });
+          y += lineH;
+          continue;
+        }
 
         // Section heading: ALL CAPS, 5+ chars, not short labels like CC:/RE:
         const isSectionHead = trimmed === trimmed.toUpperCase() &&
