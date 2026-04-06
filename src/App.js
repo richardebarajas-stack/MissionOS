@@ -57,7 +57,7 @@ DATE_RIGHT:[Weekday, Month D, YYYY]
 7 Temple Street #[Unit]
 Cambridge, MA 02139
 
-                              RE: Urgent Rental Arrears Notice - Action Required
+BOLD_CENTER:RE: Urgent Rental Arrears Notice - Action Required
 
 Dear [First Name],
 
@@ -94,7 +94,7 @@ Unit [Unit Number]
 7 Temple Street
 Cambridge, MA 02139
 
-Re: [Short subject — e.g. "Open Flame / Fire Hazard Violation" or "Smoking Violation"]
+BOLD_CENTER:Re: [Short subject — e.g. "Open Flame / Fire Hazard Violation" or "Smoking Violation"]
 
 WARNING LEVEL: [Verbal / 1st Written / 2nd Written / Final Written]
 
@@ -440,16 +440,35 @@ function Message({ msg }) {
           continue;
         }
 
+        // Bold + centered title line — AI prefixes with BOLD_CENTER:
+        if (trimmed.startsWith("BOLD_CENTER:")) {
+          const titleText = trimmed.slice("BOLD_CENTER:".length).trim();
+          y += lineH * 0.8;                          // space above
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(11);
+          doc.setTextColor(...BLACK);
+          doc.text(titleText, pageW / 2, y, { align: "center" });
+          y += lineH;
+          y += lineH * 0.8;                          // space below
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(11);
+          continue;
+        }
+
         // Section heading: ALL CAPS, 5+ chars, not short labels like CC:/RE:
         const isSectionHead = trimmed === trimmed.toUpperCase() &&
           trimmed.length > 5 && trimmed.length < 72 &&
           /[A-Z]{3}/.test(trimmed) &&
           !/^(CC:|RE:|RE :|DEAR |WARNING)/.test(trimmed.toUpperCase());
 
-        const isBold = /^(Dear |Re:|RE:|WARNING LEVEL|Sincerely)/i.test(trimmed);
+        // Bold: WARNING LEVEL and Sincerely only — NOT Dear (renders as normal)
+        const isBold = /^(WARNING LEVEL|Sincerely)/i.test(trimmed);
 
         // Extra space before section headings
         if (isSectionHead) y += 8;
+
+        // Space before Sincerely
+        if (/^Sincerely/i.test(trimmed)) y += lineH;
 
         // Apply style
         if (isSectionHead) {
@@ -481,6 +500,10 @@ function Message({ msg }) {
           doc.text(wl, margin, y);
           y += lineH;
         }
+
+        // Space after Dear line and after Sincerely
+        if (/^Dear /i.test(trimmed)) y += lineH * 0.8;
+        if (/^Sincerely/i.test(trimmed)) y += lineH * 0.8;
 
         // Draw underline BELOW section heading (not through it)
         if (isSectionHead) {
