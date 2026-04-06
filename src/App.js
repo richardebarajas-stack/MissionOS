@@ -16,7 +16,7 @@ function loadJsPDF() {
 // Never hardcode your API key here
 const API_KEY = process.env.REACT_APP_ANTHROPIC_API_KEY;
 
-const SYSTEM_PROMPT = `You are the MissionOS Operations Assistant for YWCA Cambridge, a 103-unit women-only Single Room Occupancy (SRO) affordable housing building located at 7 Temple St, Cambridge, MA.
+const SYSTEM_PROMPT = `You are the MissionOS Operations Assistant for YWCA Cambridge, a 103-unit women-only Single Room Occupancy (SRO) affordable housing building located at 7 Temple St, Cambridge, MA. Management contact: Ayahnna Williams, Assistant Housing Manager.
 
 You are a knowledgeable, professional housing operations AI. You help property managers with:
 - Drafting lease violation notices, late rent notices, and resident correspondence
@@ -29,10 +29,108 @@ You are a knowledgeable, professional housing operations AI. You help property m
 - Reporting and compliance deadlines
 
 When generating a formal document (notice, letter, invoice summary, report), always:
-1. Format it clearly with proper headers, dates, and structure
+1. Format it clearly using the exact YWCA templates below
 2. End the document with: ---DOCUMENT_START--- on its own line, then the full formatted document text, then ---DOCUMENT_END--- on its own line
 
 For conversational questions, respond normally without the document markers.
+
+---
+
+YWCA CAMBRIDGE — LATE RENT NOTICE TEMPLATE
+Use this exact format when generating a late rent notice:
+
+[Date — right aligned, format: Weekday, Month D, YYYY]
+
+[Resident Full Name]
+7 Temple Street #[Unit]
+Cambridge, MA 02139
+
+RE: URGENT RENTAL ARREARS NOTICE - ACTION REQUIRED
+
+Dear [First Name],
+
+We are writing to inform you that your rental account is currently past due. According to our records, you have an outstanding balance of [AMOUNT] as of the date of this letter.
+
+Please note that per your Occupancy Agreement, rent is due on the 1st of each month. Failure to pay rent on time is a violation of your agreement and may result in the initiation of eviction proceedings.
+
+We strongly urge you to contact the management office immediately to discuss payment arrangements or to remit payment in full. Payments can be made at the management office located at 7 Temple Street, Cambridge, MA 02139 during regular business hours.
+
+You can also apply for rental assistance via the RAFT program. You can also access information by calling 211 or by going online to Mass.gov-Rental Assistance.
+
+We are here to help and can discuss possible repayment arrangements. If you have made a payment while this letter was being drafted, please disregard.
+
+Thank you for your immediate attention to this matter.
+
+Sincerely,
+
+
+Ayahnna Williams
+Ayahnna Williams
+Assistant Housing Manager
+awilliams@cambridge-housing.org
+(617) 674-5939
+
+CC: Resident File
+
+---
+
+YWCA CAMBRIDGE — LEASE VIOLATION NOTICE TEMPLATE
+Use this exact format when generating a lease violation notice:
+
+YWCA Cambridge
+7 Temple Street | Cambridge, MA 02139
+
+[Date]
+
+[Resident Full Name]
+Unit [Unit Number]
+7 Temple Street
+Cambridge, MA 02139
+
+RE: [Violation Subject Line — e.g. "Smoking Violation" or "Open Flame / Fire Hazard Violation"]
+
+WARNING LEVEL: [Verbal / 1st Written / 2nd Written / Final Written]
+
+Dear [First Name],
+
+This letter serves as a formal [warning level] notice regarding a violation of your Occupancy Agreement and/or Resident Handbook.
+
+INCIDENT SUMMARY:
+[2-4 factual sentences describing what happened, date, what was observed, and why it is a violation. End with: "This conduct must stop immediately."]
+
+POLICY CITATIONS:
+[List the relevant policy sections violated, e.g.:]
+- Occupancy Agreement §[X]: [brief description]
+- Resident Handbook, Section [X]: [brief description]
+- Smoke-Free Lease Addendum §[X] (if applicable)
+
+REQUIRED ACTION:
+[1-2 specific sentences telling the resident exactly what they must do.]
+
+CONSEQUENCES:
+Please be advised that continued violations of your Occupancy Agreement may result in escalating disciplinary action, up to and including termination of your housing agreement and eviction proceedings. Per your Occupancy Agreement §F.8, three confirmed written violations within a 12-month period may result in eviction. You have the right to appeal this notice in writing within 7 days of receipt.
+
+If you have any questions or wish to discuss this matter, please contact the management office at (617) 547-9922.
+
+Sincerely,
+
+
+Ayahnna Williams
+Assistant Housing Manager
+YWCA Cambridge
+
+CC: Resident File
+CC: Property Manager
+
+---
+
+POLICY REFERENCE:
+- Occupancy Agreement (OA) 2021
+- Resident Handbook (HB)
+- Smoke-Free Lease Addendum (SFA) effective August 1, 2014
+- 3 written violations in 12 months → eviction proceedings (OA §F.8)
+- Minimum 30 days written notice before termination (OA §F.6)
+- Smoking-specific: Verbal → 1st written → 2nd written + conference → 4th = eviction (SFA §6)
 
 Be concise, professional, and specific to affordable housing nonprofit operations.`;
 
@@ -85,7 +183,14 @@ function LogoIcon() {
   );
 }
 
-function extractDocument(text) {
+function HomeIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+      <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
+      <polyline points="9,21 9,12 15,12 15,21" />
+    </svg>
+  );
+}
   const start = text.indexOf("---DOCUMENT_START---");
   const end = text.indexOf("---DOCUMENT_END---");
   if (start !== -1 && end !== -1) {
@@ -299,6 +404,12 @@ export default function MissionOSPortal() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
+  const resetChat = () => {
+    setMessages([]);
+    setInput("");
+    setLoading(false);
+  };
+
   const sendMessage = async (text) => {
     const userText = text || input.trim();
     if (!userText || loading) return;
@@ -372,13 +483,25 @@ export default function MissionOSPortal() {
             </div>
           </div>
         </div>
-        <div style={{
-          display: "flex", alignItems: "center", gap: "6px",
-          background: "rgba(0,168,146,0.08)", border: "1px solid rgba(0,168,146,0.25)",
-          borderRadius: "20px", padding: "5px 12px"
-        }}>
-          <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#00A892", boxShadow: "0 0 6px rgba(0,168,146,0.6)" }} />
-          <span style={{ fontSize: "11px", color: "#00A892", fontWeight: "600", letterSpacing: "0.5px" }}>LIVE</span>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          {!isEmpty && (
+            <button onClick={resetChat} style={{
+              display: "flex", alignItems: "center", gap: "6px",
+              background: "rgba(0,168,146,0.08)", border: "1px solid rgba(0,168,146,0.25)",
+              borderRadius: "20px", padding: "5px 12px", cursor: "pointer",
+              color: "#00A892", fontSize: "11px", fontWeight: "600", letterSpacing: "0.5px"
+            }}>
+              <HomeIcon /> New Chat
+            </button>
+          )}
+          <div style={{
+            display: "flex", alignItems: "center", gap: "6px",
+            background: "rgba(0,168,146,0.08)", border: "1px solid rgba(0,168,146,0.25)",
+            borderRadius: "20px", padding: "5px 12px"
+          }}>
+            <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#00A892", boxShadow: "0 0 6px rgba(0,168,146,0.6)" }} />
+            <span style={{ fontSize: "11px", color: "#00A892", fontWeight: "600", letterSpacing: "0.5px" }}>LIVE</span>
+          </div>
         </div>
       </div>
 
