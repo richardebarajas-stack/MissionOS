@@ -73,10 +73,10 @@ Thank you for your immediate attention to this matter.
 Sincerely,
 
 
-Ayahnna Williams
-Assistant Housing Manager
-awilliams@cambridge-housing.org
-(617) 674-5939
+Richard E. Barajas
+Property Manager, YWCA Cambridge
+rbarajas@cambridge-housing.org
+617-890-5015
 
 CC: Resident File
 
@@ -132,9 +132,10 @@ Please be advised that continued violations of your Occupancy Agreement may resu
 Sincerely,
 
 
-Ayahnna Williams
-Assistant Housing Manager
-YWCA Cambridge
+Richard E. Barajas
+Property Manager, YWCA Cambridge
+rbarajas@cambridge-housing.org
+617-890-5015
 
 CC: Resident File
 CC: Property Manager
@@ -181,8 +182,10 @@ Thank you for your immediate attention to this matter.
 Sincerely,
 
 
-Ayahnna Williams
-Assistant Housing Manager
+Richard E. Barajas
+Property Manager, YWCA Cambridge
+rbarajas@cambridge-housing.org
+617-890-5015
 
 CC: Resident File
 
@@ -341,13 +344,24 @@ function Message({ msg }) {
   const handlePrint = () => {
     const win = window.open("", "_blank");
     win.document.write(`
-      <html><head><title>MissionOS Document</title>
+      <html><head><title>YWCA Cambridge Document</title>
       <style>
-        body { font-family: Georgia, serif; max-width: 700px; margin: 60px auto; line-height: 1.8; color: #1a1a1a; font-size: 14px; }
-        pre { white-space: pre-wrap; font-family: Georgia, serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+        body { font-family: 'Open Sans', Arial, sans-serif; max-width: 720px; margin: 60px auto; line-height: 1.8; color: #1a1a1a; font-size: 13px; }
+        .ywca-header { border-top: 4px solid #ED7D31; padding: 10px 0 6px; display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #ED7D31; margin-bottom: 28px; }
+        .ywca-slogan { color: #ED7D31; font-weight: bold; font-style: italic; font-size: 10px; letter-spacing: 0.3px; }
+        .ywca-logo { height: 28px; }
+        .ywca-footer { border-top: 1px solid #ED7D31; margin-top: 40px; padding-top: 8px; text-align: center; font-size: 9px; color: #888; font-style: italic; }
+        pre { white-space: pre-wrap; font-family: 'Open Sans', Arial, sans-serif; font-size: 13px; line-height: 1.8; }
         @media print { body { margin: 40px; } }
       </style></head>
-      <body><pre>${docText}</pre>
+      <body>
+        <div class="ywca-header">
+          <div class="ywca-slogan">eliminating racism &nbsp;·&nbsp; empowering women &nbsp;·&nbsp; ywca</div>
+          <img src="/ywca_logo.png" class="ywca-logo" onerror="this.style.display='none'" />
+        </div>
+        <pre>${docText}</pre>
+        <div class="ywca-footer">YWCA Cambridge &nbsp;·&nbsp; 7 Temple Street, Cambridge MA 02139 &nbsp;·&nbsp; Confidential</div>
       <script>window.onload = () => { window.print(); }<\/script>
       </body></html>
     `);
@@ -362,70 +376,112 @@ function Message({ msg }) {
       const pageW = doc.internal.pageSize.getWidth();
       const pageH = doc.internal.pageSize.getHeight();
       const maxW = pageW - margin * 2;
-      const lineH = 15;
-      let y = margin;
+      const lineH = 15.5;
+      const ORANGE = [237, 125, 49];   // #ED7D31 — YWCA brand orange
+      const BLACK  = [26,  26,  26];   // #1A1A1A
+      const GRAY   = [136, 136, 136];  // #888888
 
-      doc.setFillColor(0, 168, 146);
-      doc.rect(0, 0, pageW, 36, "F");
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(13);
-      doc.setTextColor(255, 255, 255);
-      doc.text("MissionOS  ·  YWCA Cambridge Operations", margin, 23);
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(9);
-      const dateStr = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-      doc.text(dateStr, pageW - margin, 23, { align: "right" });
-      y = 70;
+      // ── Draw the YWCA header on a given page ───────────────────────────────
+      const drawHeader = async () => {
+        // Orange rule at top
+        doc.setFillColor(...ORANGE);
+        doc.rect(0, 0, pageW, 4, "F");
+
+        // Slogan (left) — italic small caps style
+        doc.setFont("helvetica", "bolditalic");
+        doc.setFontSize(8);
+        doc.setTextColor(...ORANGE);
+        doc.text("eliminating racism  ·  empowering women  ·  ywca", margin, 22);
+
+        // Try to load and draw the YWCA logo (right side)
+        try {
+          const logoResp = await fetch("/ywca_logo.png");
+          if (logoResp.ok) {
+            const blob = await logoResp.blob();
+            const reader = new FileReader();
+            await new Promise(res => { reader.onload = res; reader.readAsDataURL(blob); });
+            doc.addImage(reader.result, "PNG", pageW - margin - 110, 6, 110, 22);
+          }
+        } catch (_) { /* logo optional — skip silently */ }
+
+        // Bottom orange rule under header
+        doc.setFillColor(...ORANGE);
+        doc.rect(0, 32, pageW, 2, "F");
+      };
+
+      await drawHeader();
+      let y = 58;
 
       doc.setFont("helvetica", "normal");
       doc.setFontSize(11);
-      doc.setTextColor(30, 30, 30);
+      doc.setTextColor(...BLACK);
 
       const lines = docText.split("\n");
       for (const rawLine of lines) {
         const trimmed = rawLine.trimEnd();
-        const isHeading = (trimmed === trimmed.toUpperCase() && trimmed.length > 3 && trimmed.length < 60 && /[A-Z]/.test(trimmed))
-          || /^(Dear |To:|From:|Re:|Date:|Subject:|RE:)/i.test(trimmed);
 
-        if (isHeading) { doc.setFont("helvetica", "bold"); doc.setFontSize(11); }
-        else { doc.setFont("helvetica", "normal"); doc.setFontSize(11); }
+        // Section headings: ALL CAPS short lines or letter salutation / RE lines
+        const isHeading = (trimmed === trimmed.toUpperCase() && trimmed.length > 3 && trimmed.length < 70 && /[A-Z]/.test(trimmed))
+          || /^(Dear |To:|From:|Re:|Date:|Subject:|RE:|WARNING LEVEL)/i.test(trimmed);
 
-        if (trimmed === "") { y += lineH * 0.6; continue; }
+        if (trimmed === "") { y += lineH * 0.55; continue; }
+
+        // Orange horizontal rule before ALL-CAPS section headings (mid-doc)
+        if (isHeading && y > 100 && trimmed === trimmed.toUpperCase() && trimmed.length > 6) {
+          doc.setDrawColor(...ORANGE);
+          doc.setLineWidth(0.8);
+          doc.line(margin, y - 4, pageW - margin, y - 4);
+          doc.setTextColor(...ORANGE);
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(10);
+        } else if (isHeading) {
+          doc.setTextColor(...BLACK);
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(11);
+        } else {
+          doc.setTextColor(...BLACK);
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(11);
+        }
 
         const wrapped = doc.splitTextToSize(trimmed, maxW);
         for (const wl of wrapped) {
           if (y + lineH > pageH - margin) {
             doc.addPage();
-            doc.setFillColor(0, 168, 146);
-            doc.rect(0, 0, pageW, 36, "F");
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(13);
-            doc.setTextColor(255, 255, 255);
-            doc.text("MissionOS  ·  YWCA Cambridge Operations", margin, 23);
-            doc.setTextColor(30, 30, 30);
-            y = 70;
-            if (isHeading) { doc.setFont("helvetica", "bold"); }
-            else { doc.setFont("helvetica", "normal"); }
+            await drawHeader();
+            doc.setTextColor(...BLACK);
+            y = 58;
+            doc.setFont("helvetica", "normal");
             doc.setFontSize(11);
           }
           doc.text(wl, margin, y);
           y += lineH;
         }
+        // Reset color/font after orange heading
+        if (isHeading && trimmed === trimmed.toUpperCase() && trimmed.length > 6) {
+          doc.setTextColor(...BLACK);
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(11);
+        }
       }
 
+      // Footer
+      doc.setDrawColor(...ORANGE);
+      doc.setLineWidth(0.5);
+      doc.line(margin, pageH - 36, pageW - margin, pageH - 36);
       doc.setFont("helvetica", "italic");
-      doc.setFontSize(8);
-      doc.setTextColor(160, 160, 160);
-      doc.text("Generated by MissionOS · Confidential · YWCA Cambridge", pageW / 2, pageH - 24, { align: "center" });
+      doc.setFontSize(7.5);
+      doc.setTextColor(...GRAY);
+      doc.text("YWCA Cambridge · 7 Temple Street, Cambridge MA 02139 · Confidential", pageW / 2, pageH - 24, { align: "center" });
 
-      const filename = `MissionOS_Document_${new Date().toISOString().slice(0, 10)}.pdf`;
+      const filename = `YWCA_Document_${new Date().toISOString().slice(0, 10)}.pdf`;
       doc.save(filename);
     } catch (err) {
       const blob = new Blob([docText], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "MissionOS_Document.txt";
+      a.download = "YWCA_Document.txt";
       a.click();
       URL.revokeObjectURL(url);
     }
