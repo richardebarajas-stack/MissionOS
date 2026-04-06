@@ -213,6 +213,11 @@ VENDOR GL CODES (Property 4118):
 - J&JT Cleaning Contract: GL 6517 — Cleaning Contract
 - J&JT Snow Removal: GL 6475 — Snow Removal
 
+CURRENT RESIDENT DIRECTORY (as of March 30, 2026):
+When a user provides only a unit number, look up the resident's name here before generating any document. Always use the exact name from this list.
+
+Unit 131: Maureen German | Unit 132: Renee Richard | Unit 133: Patricia Nelson | Unit 134: Marie Miranda | Unit 135: Cheryl Burton | Unit 136: Marylee Gibbons | Unit 137: Karma Kruger | Unit 138: Lisa Arsenault | Unit 139: Sha-nece Bennett | Unit 140: June Thorpe | Unit 141: Stacey Pollard | Unit 142: Rutha Habtegergish | Unit 143: Josianne Antoine | Unit 144: Neka Agabi | Unit 145: Zrandra Collins | Unit 232: Jennifer Edgecomb | Unit 233: Sarah Corasmin | Unit 234: Angela Mini | Unit 236: Natalia Shaw | Unit 237: Barbara Noll | Unit 240: Destiny Hunter-Trusty | Unit 241: Dawn Bennett | Unit 242: Devan Magliozzi | Unit 243: Kathleen Jones | Unit 244: Marlene Willcot | Unit 245: Sylvia Kouyoujmijian | Unit 300: Ana Alfonso | Unit 301: Geshea Kelly | Unit 302: Rita Rodriguez | Unit 303: Valerie Prosper | Unit 304: Aliyyah Ashanti | Unit 305: Shun Kam | Unit 306: Claudette Crowe | Unit 307: Nicole Ferguson | Unit 308: Solange Santos | Unit 309: Serlina Samuel Brown | Unit 310: Laura Daniel | Unit 311: Anastasia Tate | Unit 312: Elba Charles | Unit 313: Rebecca Lochet | Unit 317: VACANT | Unit 318: Kelsey Ingemi | Unit 320: Katrina Calhoun | Unit 321: Michelle Freytes | Unit 322: Jaileen Nazario | Unit 323: Fatma Salem | Unit 324: Jessica Khan | Unit 325: Susan Lauziere | Unit 326: Megan Burrows | Unit 327: Alicia Gomes | Unit 328: Amanda Norcia | Unit 331: Pepper Parrish | Unit 332: Debra Willcox | Unit 333: Diane Grenda | Unit 334: Ellen Murphy | Unit 335: Jamillah Lloyd | Unit 336: Susan Herrin | Unit 337: Melissa Hattersley | Unit 338: Ana Sosa | Unit 339: Pamela Sherman | Unit 340: Tristan Driscoll | Unit 341: Deborah Olden | Unit 342: Raylnn Rodriguez | Unit 343: Judy Garland-Putnam | Unit 401: Nikki Siharath | Unit 402: Sandra Jordan | Unit 404: Alisha Smith | Unit 405: Shannon Thorley | Unit 406: Erin Weafer | Unit 407: Diane Steinkamp | Unit 408: Kelly Kilpatrick | Unit 409: Linda Shea | Unit 410: Innazia Moore | Unit 411: Lori Farrington | Unit 415: Rita Jirichian | Unit 416: Janice Horton | Unit 417: Anna Sowinski | Unit 418: Blossie Williams | Unit 421: Taylor McNair | Unit 422: Deta Galloway-Pitts | Unit 423: Tamyya Wright | Unit 424: Sarah Peavey | Unit 431: Emily Kenny | Unit 432: Stacey Fernandes | Unit 433: Rose Ann Mickel | Unit 435: Jamel Miller | Unit 436: Keisha Hanson | Unit 437: Katrina Watt | Unit 438: Ashley Holland | Unit 439: Wedjeena Geese | Unit 440: Simone Thombs | Unit 441: Shanita Burris | Unit 442: Laura Vincente | Unit 443: Rosemary Hunter | Unit 444: Kathleen Lampesis
+
 Be concise, professional, and specific to affordable housing nonprofit operations.`;
 }
 
@@ -381,36 +386,40 @@ function Message({ msg }) {
       const BLACK  = [26,  26,  26];   // #1A1A1A
       const GRAY   = [136, 136, 136];  // #888888
 
+      const HEADER_H = 54;
+
       // ── Draw the YWCA header on a given page ───────────────────────────────
       const drawHeader = async () => {
-        // Orange rule at top
+        // Thin orange top bar
         doc.setFillColor(...ORANGE);
-        doc.rect(0, 0, pageW, 4, "F");
+        doc.rect(0, 0, pageW, 3, "F");
 
-        // Slogan (left) — italic small caps style
+        // Slogan — stacked vertically on the left (matches real YWCA letterhead)
         doc.setFont("helvetica", "bolditalic");
-        doc.setFontSize(8);
+        doc.setFontSize(7.5);
         doc.setTextColor(...ORANGE);
-        doc.text("eliminating racism  ·  empowering women  ·  ywca", margin, 22);
+        doc.text("eliminating racism", margin, 15);
+        doc.text("empowering women",  margin, 25);
+        doc.text("ywca",              margin, 35);
 
-        // Try to load and draw the YWCA logo (right side)
+        // YWCA logo — right-aligned
         try {
           const logoResp = await fetch("/ywca_logo.png");
           if (logoResp.ok) {
             const blob = await logoResp.blob();
             const reader = new FileReader();
             await new Promise(res => { reader.onload = res; reader.readAsDataURL(blob); });
-            doc.addImage(reader.result, "PNG", pageW - margin - 110, 6, 110, 22);
+            doc.addImage(reader.result, "PNG", pageW - margin - 120, 10, 120, 24);
           }
-        } catch (_) { /* logo optional — skip silently */ }
+        } catch (_) { /* logo optional */ }
 
-        // Bottom orange rule under header
+        // Orange bottom rule
         doc.setFillColor(...ORANGE);
-        doc.rect(0, 32, pageW, 2, "F");
+        doc.rect(0, HEADER_H - 2, pageW, 2, "F");
       };
 
       await drawHeader();
-      let y = 58;
+      let y = HEADER_H + 16;
 
       doc.setFont("helvetica", "normal");
       doc.setFontSize(11);
@@ -419,22 +428,25 @@ function Message({ msg }) {
       const lines = docText.split("\n");
       for (const rawLine of lines) {
         const trimmed = rawLine.trimEnd();
+        if (trimmed === "") { y += lineH * 0.5; continue; }
 
-        // Section headings: ALL CAPS short lines or letter salutation / RE lines
-        const isHeading = (trimmed === trimmed.toUpperCase() && trimmed.length > 3 && trimmed.length < 70 && /[A-Z]/.test(trimmed))
-          || /^(Dear |To:|From:|Re:|Date:|Subject:|RE:|WARNING LEVEL)/i.test(trimmed);
+        // Section heading: ALL CAPS, 5+ chars, not short labels like CC:/RE:
+        const isSectionHead = trimmed === trimmed.toUpperCase() &&
+          trimmed.length > 5 && trimmed.length < 72 &&
+          /[A-Z]{3}/.test(trimmed) &&
+          !/^(CC:|RE:|RE :|DEAR |WARNING)/.test(trimmed.toUpperCase());
 
-        if (trimmed === "") { y += lineH * 0.55; continue; }
+        const isBold = /^(Dear |Re:|RE:|WARNING LEVEL|Sincerely)/i.test(trimmed);
 
-        // Orange horizontal rule before ALL-CAPS section headings (mid-doc)
-        if (isHeading && y > 100 && trimmed === trimmed.toUpperCase() && trimmed.length > 6) {
-          doc.setDrawColor(...ORANGE);
-          doc.setLineWidth(0.8);
-          doc.line(margin, y - 4, pageW - margin, y - 4);
+        // Extra space before section headings
+        if (isSectionHead) y += 8;
+
+        // Apply style
+        if (isSectionHead) {
           doc.setTextColor(...ORANGE);
           doc.setFont("helvetica", "bold");
           doc.setFontSize(10);
-        } else if (isHeading) {
+        } else if (isBold) {
           doc.setTextColor(...BLACK);
           doc.setFont("helvetica", "bold");
           doc.setFontSize(11);
@@ -444,21 +456,28 @@ function Message({ msg }) {
           doc.setFontSize(11);
         }
 
+        // Page break
+        if (y + lineH > pageH - margin) {
+          doc.addPage();
+          await drawHeader();
+          y = HEADER_H + 16;
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(11);
+          doc.setTextColor(...BLACK);
+        }
+
         const wrapped = doc.splitTextToSize(trimmed, maxW);
         for (const wl of wrapped) {
-          if (y + lineH > pageH - margin) {
-            doc.addPage();
-            await drawHeader();
-            doc.setTextColor(...BLACK);
-            y = 58;
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(11);
-          }
           doc.text(wl, margin, y);
           y += lineH;
         }
-        // Reset color/font after orange heading
-        if (isHeading && trimmed === trimmed.toUpperCase() && trimmed.length > 6) {
+
+        // Draw underline BELOW section heading (not through it)
+        if (isSectionHead) {
+          doc.setDrawColor(...ORANGE);
+          doc.setLineWidth(0.8);
+          doc.line(margin, y - lineH + 4, pageW - margin, y - lineH + 4);
+          y += 3;
           doc.setTextColor(...BLACK);
           doc.setFont("helvetica", "normal");
           doc.setFontSize(11);
