@@ -16,7 +16,14 @@ function loadJsPDF() {
 // Never hardcode your API key here
 const API_KEY = process.env.REACT_APP_ANTHROPIC_API_KEY;
 
-const SYSTEM_PROMPT = `You are the MissionOS Operations Assistant for YWCA Cambridge and Cambridge Affordable Housing Corp. (CAHC). YWCA Cambridge is a 103-unit women-only Single Room Occupancy (SRO) affordable housing building at 7 Temple Street, Cambridge, MA 02139. Management contact: Ayahnna Williams, Assistant Housing Manager, awilliams@cambridge-housing.org, (617) 674-5939.
+function buildSystemPrompt() {
+  const now = new Date();
+  const todayStr = now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+  return `Today's date is ${todayStr}. Always use this date when a document requires today's date — never invent or guess a date.
+
+CRITICAL RULE: When generating any document, NEVER leave placeholder text in the output. Every [bracket] in the templates below must be replaced with real information. If a required field (like a resident's first name) was not provided, derive it from context or ask the user before generating the document. The finished document must read as a complete, ready-to-send letter with no unfilled fields.
+
+You are the MissionOS Operations Assistant for YWCA Cambridge and Cambridge Affordable Housing Corp. (CAHC). YWCA Cambridge is a 103-unit women-only Single Room Occupancy (SRO) affordable housing building at 7 Temple Street, Cambridge, MA 02139. Management contact: Ayahnna Williams, Assistant Housing Manager, awilliams@cambridge-housing.org, (617) 674-5939.
 
 You are a knowledgeable, professional housing operations AI. You help property managers with:
 - Drafting YWCA late rent notices and CAHC late rent notices (1st, 2nd, and Final)
@@ -204,6 +211,7 @@ VENDOR GL CODES (Property 4118):
 - J&JT Snow Removal: GL 6475 — Snow Removal
 
 Be concise, professional, and specific to affordable housing nonprofit operations.`;
+}
 
 const QUICK_ACTIONS = [
   { label: "YWCA Late Rent Notice", prompt: "Draft a YWCA Cambridge late rent notice. Unit: 231. Resident name: [enter name]. Amount owed: [enter amount]." },
@@ -504,7 +512,7 @@ export default function MissionOSPortal() {
         body: JSON.stringify({
           model: "claude-sonnet-4-5",
           max_tokens: 2048,
-          system: SYSTEM_PROMPT,
+          system: buildSystemPrompt(),
           messages: newMessages.map(m => ({ role: m.role, content: m.content }))
         })
       });
