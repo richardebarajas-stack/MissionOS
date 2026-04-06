@@ -191,6 +191,8 @@ function HomeIcon() {
     </svg>
   );
 }
+
+function extractDocument(text) {
   const start = text.indexOf("---DOCUMENT_START---");
   const end = text.indexOf("---DOCUMENT_END---");
   if (start !== -1 && end !== -1) {
