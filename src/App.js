@@ -83,108 +83,77 @@ CC: Resident File
 
 ---
 
-YWCA CAMBRIDGE — LEASE VIOLATION NOTICE TEMPLATE
-Use this exact format when generating a lease violation notice. Select the correct WARNING LEVEL: Verbal | 1st Written | 2nd Written | Final Written (default to 1st Written if not specified).
-IMPORTANT: Do NOT include "YWCA Cambridge" or "7 Temple Street | Cambridge, MA 02139" at the top — the letterhead already shows that. Output the date prefixed with "DATE_RIGHT:" so it is right-aligned.
+YWCA CAMBRIDGE - LEASE VIOLATION NOTICE TEMPLATE
+Use this exact format for lease violation notices. No "Dear [name]", no address block, no "Sincerely". Plain ASCII only: [ ] unchecked, [X] for the selected warning level, --- for dividers.
 
-DATE_RIGHT:[Month D, YYYY]
+Date: [Day of week, Month DD, YYYY]
+Warning Level: [ ] Verbal Warning   [ ] 1st Written Warning   [ ] 2nd Written Warning   [ ] Final Written Warning
+(mark the applicable level with [X])
 
-[Resident Full Name]
-Unit [Unit Number]
-7 Temple Street
-Cambridge, MA 02139
-
-BOLD_CENTER:Re: [Short subject — e.g. "Open Flame / Fire Hazard Violation" or "Smoking Violation"]
-
-WARNING LEVEL: [Verbal / 1st Written / 2nd Written / Final Written]
-
-Dear [First Name],
-
-This letter serves as a formal [warning level] notice regarding a violation of your Occupancy Agreement and/or Resident Handbook.
-
-INCIDENT SUMMARY:
-[2–4 factual, objective sentences: date, what was observed, who was involved, and why it is a violation. End with: "This conduct must stop immediately."]
-
-POLICY CITATIONS:
-[List the relevant sections. Select the applicable ones:]
-Smoking / Open Flame:
-- Occupancy Agreement §C.11: Prohibition on smoking inside the building or unit
-- Smoke-Free Lease Addendum §3: No smoking on the premises
-- Resident Handbook: Fire Safety Policy
-
-Noise / Disturbance:
-- Occupancy Agreement §C.7: Residents must not disturb the peaceful enjoyment of others
-- Resident Handbook: Quiet Hours Policy (10 PM – 8 AM)
-
-Unauthorized Occupant:
-- Occupancy Agreement §C.3: Only approved occupants may reside in or regularly use the unit
-- Resident Handbook: Guest Policy
-
-Other violations — cite applicable OA section and Resident Handbook section.
-
-REQUIRED ACTION:
-[1–2 specific sentences telling the resident exactly what they must do — be concrete, not vague.]
-
-CONSEQUENCES:
-Please be advised that continued violations of your Occupancy Agreement may result in escalating disciplinary action, up to and including termination of your housing agreement and eviction proceedings. Per your Occupancy Agreement §F.8, three confirmed written violations within a 12-month period may result in eviction. You have the right to appeal this notice in writing within 7 days of receipt. For questions, contact the management office at (617) 547-9922.
-
-Sincerely,
-
-
-Richard E. Barajas
-Property Manager, YWCA Cambridge
-rbarajas@cambridge-housing.org
-617-890-5015
-
-CC: Resident File
-CC: Property Manager
+To: [Resident Full Name]                              From: YWCA Cambridge Management
+Unit: #[XXX] - 7 Temple St., Cambridge, MA 02139     Re: [Short Violation Subject]
 
 ---
+INCIDENT SUMMARY
+---
+[Write a factual, objective 2-4 sentence paragraph: date, what was observed, who was involved, why it is a violation. End with: "This conduct must stop immediately."]
 
-CAHC — LATE RENT NOTICE TEMPLATES
-Use these formats when generating a CAHC (Cambridge Affordable Housing Corp.) late rent notice. There are three types — use whichever the user requests (default to 1st Notice):
+---
+APPLICABLE POLICY CITATIONS
+---
+Select only the citations relevant to the violation. Use exactly this indented format. Deduplicate shared citations:
 
-** 1ST NOTICE **
-RE: Urgent Rental Arrears 1st Notice - Action Required
+  OA Sec. E2  (Peaceful Enjoyment): Occupant shall live peacefully and shall not interfere with other residents' rights to comfort, safety, privacy, security, or quiet enjoyment.
+  OA Sec. E3  (Property Care): Occupant shall maintain the unit in clean condition and shall not litter, destroy, deface, damage, or remove appliances, fixtures, equipment, or any part of the unit, common areas, or grounds.
+  OA Sec. E4  (Damage Liability): Occupant is liable for all costs to repair damage caused by the intentional or negligent conduct of occupant or guests.
+  OA Sec. E6  (No Unauthorized Occupants): Occupant shall not assign rights under this Agreement, nor permit any person other than the approved occupant to reside in the unit, under any circumstances.
+  OA Sec. E12 (No Pets Without Consent): Occupant shall not maintain any pet without prior written consent of management.
+  OA Sec. E13 (Disruptive / Hazardous Use): Occupant shall not create, or allow guests to create, any disruptive, noisy, or hazardous use of the unit or residence.
+  OA Sec. E14 (No Nuisance): Occupant shall not commit any disturbance or nuisance, public or private.
+  OA Sec. E15 (No Obstruction): Occupant shall not obstruct the free use or access of any common areas.
+  OA Sec. E16 (No Hazardous / Unlawful Acts): Occupant shall not engage in, or allow guests to engage in, any unlawful acts or use of the unit or common areas that causes or threatens physical harm or hazardous conditions to others.
+  OA Sec. E17 (No Alcohol): Occupant shall not bring, or allow any guest to bring, alcoholic beverages into the building, unit, or onto surrounding grounds.
+  OA Sec. E18 (No Smoking): Occupant shall not smoke, or allow any guest to smoke, any tobacco product in the building, unit, or on the surrounding grounds.
+  OA Sec. E19 (Guest Supervision): Occupant is fully responsible for the conduct of all guests and invitees. Failure to actively supervise guests may constitute grounds for termination of this Agreement.
+  OA Sec. E24 (No Excessive Storage / Hoarding): Floor areas must remain clear for safe egress. Storing excessive personal property that presents a fire or health hazard may result in management removing such property after written notice.
+  OA Sec. E25 (Smoke & CO Detectors): Occupant shall maintain smoke and carbon monoxide detectors in working condition at all times and shall not tamper with, disable, or remove them.
+  HB Sec. 3.6 (Pet Policy): The YWCA prohibits pets of any kind other than a single goldfish in a one-gallon tank (pre-approved by management). Non-approved animals must be removed immediately; failure to comply may result in eviction.
+  HB Sec. 4.1 (Noise - Quiet Hours): Quiet hours are 10:00 PM-8:00 AM daily. No yelling, screaming, swearing, slamming doors, or disruptive behavior in common areas at any time.
+  HB Sec. 4.2 (Drugs & Alcohol Policy): Use of alcohol or unprescribed drugs is prohibited on premises. Three confirmed written violations within 12 months may result in eviction.
+  HB Sec. 4.3 (Smoking / Open Flames): Smoking and open flames of any kind are prohibited in all indoor areas at any time. Designated outdoor smoking areas must be at least 25 feet from all building entrances.
+  HB Sec. 6.1 (Common Area Conduct): Residents must be respectful of neighbors in all common areas. Behavior that interferes with others' peaceful enjoyment may result in eviction.
+  HB Sec. 6.6 (Discriminatory Behavior): Comments or conduct targeting any resident on the basis of race, color, gender, ability, sexual orientation, religion, age, or any other protected status are strictly prohibited and may result in disciplinary action up to and including eviction.
+  SFA Sec. 6  (Smoke-Free Addendum - Enforcement): Breach constitutes grounds for enforcement. Violations are addressed progressively: verbal warning (1st), written warning (2nd), conference required (3rd). Eviction proceedings may commence on the fourth confirmed violation.
+  SFA Sec. 1-2 (Smoke-Free Addendum - Fire Risk Purpose): The Smoke-Free Policy is intended in part to decrease the risk of fire in YWCA units. Open flames create equivalent or greater fire risk and are prohibited under the same principles.
 
-** 2ND NOTICE **
-RE: Urgent Rental Arrears 2nd Notice - Action Required
+---
+REQUIRED ACTION
+---
+[1-2 sentences stating exactly what the resident must do. Be specific.]
 
-** FINAL NOTICE **
-RE: Urgent Rental Arrears Final Notice - Action Required
+---
+CONSEQUENCES OF CONTINUED VIOLATIONS
+---
+Repeated or continued violations of your Occupancy Agreement or Resident Handbook place your housing at risk. Management may initiate termination proceedings after three (3) confirmed written violations within any 12-month period (OA Sec. F.8). A minimum of 30 days written notice will be provided prior to any termination (OA Sec. F.6).
 
-Use this letter format for all CAHC notice types (swap the RE line above):
+You have the right to appeal any termination decision by submitting a written grievance request to the Senior Property Manager within seven (7) calendar days of receiving a termination notice (HB Sec. 4.2, 4.3).
 
-                                                    [Weekday, Month D, YYYY — right-aligned]
+If you are a person with a disability, you may be entitled to a reasonable accommodation to resolve this matter. Please contact management to discuss (OA Sec. F.7(c)).
 
-[Resident Full Name]
-Unit [Unit Number], [Property Name]
-[Property Address]
-Cambridge, MA 02139
-
-                              RE: [appropriate RE line from above]
-
-Dear [First Name],
-
-     We are writing to inform you that your rental account is currently past due. According to our records, you have an outstanding balance of **$[AMOUNT]** as of the date of this letter.
-
-     Please note that per your lease agreement, rent is due on the 1st of each month. Failure to pay rent on time is a violation of your agreement and may result in the initiation of eviction proceedings.
-
-     We strongly urge you to contact the management office immediately to discuss payment arrangements or to remit payment in full.
-
-     You may also apply for rental assistance via the RAFT program by calling 211 or visiting Mass.gov/RentalAssistance.
-
-     If you have made a payment while this letter was being drafted, please disregard this notice.
-
-Thank you for your immediate attention to this matter.
-
-Sincerely,
-
+---
+MANAGEMENT
+---
+We encourage you to review your Occupancy Agreement and Resident Handbook in full. Please contact management if you have any questions or wish to schedule a meeting.
 
 Richard E. Barajas
 Property Manager, YWCA Cambridge
-rbarajas@cambridge-housing.org
-617-890-5015
+617-890-5015  |  rbarajas@cambridge-housing.org
+7 Temple Street, Cambridge, MA 02139
+
+---
+Document References (on file with management): Occupancy Agreement (2021) - Resident Handbook - Smoke-Free Lease Addendum (eff. Aug. 1, 2014)
+
+
 
 CC: Resident File
 
