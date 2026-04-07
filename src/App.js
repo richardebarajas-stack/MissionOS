@@ -84,23 +84,21 @@ CC: Resident File
 ---
 
 YWCA CAMBRIDGE - LEASE VIOLATION NOTICE TEMPLATE
-Use this exact format for lease violation notices. No "Dear [name]", no address block, no "Sincerely". Plain ASCII only: [ ] unchecked, [X] for the selected warning level, --- for dividers.
+Use this exact format for lease violation notices. No "Dear [name]", no address block, no "Sincerely". Plain ASCII only: [ ] unchecked, [X] for the selected warning level.
 
 Date: [Day of week, Month DD, YYYY]
+
 Warning Level: [ ] Verbal Warning   [ ] 1st Written Warning   [ ] 2nd Written Warning   [ ] Final Written Warning
 (mark the applicable level with [X])
 
 To: [Resident Full Name]                              From: YWCA Cambridge Management
-Unit: #[XXX] - 7 Temple St., Cambridge, MA 02139     Re: [Short Violation Subject]
+    Unit #[XXX] - 7 Temple St.                        Re: [Short Violation Subject]
+    Cambridge, MA 02139
 
----
 INCIDENT SUMMARY
----
 [Write a factual, objective 2-4 sentence paragraph: date, what was observed, who was involved, why it is a violation. End with: "This conduct must stop immediately."]
 
----
 APPLICABLE POLICY CITATIONS
----
 Select only the citations relevant to the violation. Use exactly this indented format. Deduplicate shared citations:
 
   OA Sec. E2  (Peaceful Enjoyment): Occupant shall live peacefully and shall not interfere with other residents' rights to comfort, safety, privacy, security, or quiet enjoyment.
@@ -126,23 +124,17 @@ Select only the citations relevant to the violation. Use exactly this indented f
   SFA Sec. 6  (Smoke-Free Addendum - Enforcement): Breach constitutes grounds for enforcement. Violations are addressed progressively: verbal warning (1st), written warning (2nd), conference required (3rd). Eviction proceedings may commence on the fourth confirmed violation.
   SFA Sec. 1-2 (Smoke-Free Addendum - Fire Risk Purpose): The Smoke-Free Policy is intended in part to decrease the risk of fire in YWCA units. Open flames create equivalent or greater fire risk and are prohibited under the same principles.
 
----
 REQUIRED ACTION
----
 [1-2 sentences stating exactly what the resident must do. Be specific.]
 
----
 CONSEQUENCES OF CONTINUED VIOLATIONS
----
 Repeated or continued violations of your Occupancy Agreement or Resident Handbook place your housing at risk. Management may initiate termination proceedings after three (3) confirmed written violations within any 12-month period (OA Sec. F.8). A minimum of 30 days written notice will be provided prior to any termination (OA Sec. F.6).
 
 You have the right to appeal any termination decision by submitting a written grievance request to the Senior Property Manager within seven (7) calendar days of receiving a termination notice (HB Sec. 4.2, 4.3).
 
 If you are a person with a disability, you may be entitled to a reasonable accommodation to resolve this matter. Please contact management to discuss (OA Sec. F.7(c)).
 
----
 MANAGEMENT
----
 We encourage you to review your Occupancy Agreement and Resident Handbook in full. Please contact management if you have any questions or wish to schedule a meeting.
 
 Richard E. Barajas
